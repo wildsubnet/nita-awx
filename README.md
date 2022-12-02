@@ -1,8 +1,12 @@
-# nita-awx-setup
-
-AWX Execution Environment is located in ansible-ee folder and based on https://github.com/juniper/nita-ansible container.
+# nita-awx
 
 This is a work in progress and represents the files used to create an running k3s environment with AWX running along side a NITA install. This is being used to test the AWX execution environment.
+
+## Folders
+
+AWX Execution Environment is located in ansible-ee folder and based on https://github.com/juniper/nita-ansible container.
+awx-operator is a clone of AWX setup repository and here for reference purposes (for now). This is the version that is being tested against.
+
 
 ## Commands used to install
 
