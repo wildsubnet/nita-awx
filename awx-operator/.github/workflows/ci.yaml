@@ -1,0 +1,84 @@
+---
+
+name: CI
+
+on:
+  pull_request:
+    branches: [devel]
+
+  push:
+    branches: [devel]
+
+jobs:
+  molecule:
+    runs-on: ubuntu-18.04
+    name: molecule
+    env:
+      DOCKER_API_VERSION: "1.38"
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+
+      - name: Install Dependencies
+        run: |
+          pip install -r molecule/requirements.txt
+
+      - name: Install Collections
+        run: |
+          ansible-galaxy collection install -r molecule/requirements.yml
+
+      - name: Run Molecule
+        env:
+          MOLECULE_VERBOSITY: 3
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+        run: |
+          sudo rm -f $(which kustomize)
+          make kustomize
+          KUSTOMIZE_PATH=$(readlink -f bin/kustomize) molecule test -s kind
+  helm:
+    runs-on: ubuntu-18.04
+    name: helm
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Create k8s Kind Cluster
+        uses: helm/kind-action@v1.2.0
+
+      - name: Build operator image and load into kind
+        run: |
+          IMG=awx-operator-ci make docker-build
+          kind load docker-image --name chart-testing awx-operator-ci
+
+      - name: Patch pull policy for tests
+        run: |
+          kustomize edit add patch --path ../testing/pull_policy/Never.yaml
+        working-directory: config/default
+
+      - name: Build and lint helm chart
+        run: |
+          IMG=awx-operator-ci make helm-chart
+          helm lint ./charts/awx-operator
+
+      - name: Install kubeval
+        run: |
+          mkdir tmp && cd tmp
+          wget https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz
+          tar xf kubeval-linux-amd64.tar.gz
+          sudo cp kubeval /usr/local/bin
+        working-directory: ./charts
+
+      - name: Run kubeval
+        run: |
+          helm template -n awx awx-operator > tmp/test.yaml
+          kubeval --strict --force-color --ignore-missing-schemas tmp/test.yaml
+        working-directory: ./charts
+
+      - name: Install helm chart
+        run: |
+          helm install --wait my-awx-operator --namespace awx --create-namespace ./charts/awx-operator

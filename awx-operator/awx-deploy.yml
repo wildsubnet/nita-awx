@@ -14,4 +14,3 @@ spec:
     - name: static-data
       persistentVolumeClaim:
         claimName: static-data-pvc
-
