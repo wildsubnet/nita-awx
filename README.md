@@ -1,48 +1,48 @@
 # nita-awx
 
-This is a work in progress and represents the files used to create an running k3s environment with AWX running along side a NITA install. This is being used to test the AWX execution environment.
+This is a work in progress and represents the files used to create an running AWX running along side an existing NITA (docker based) install. This is being used to test the AWX execution environment. AWX requires kubernetes.
 
 ## Folders
 
-AWX Execution Environment is located in ansible-ee folder and based on https://github.com/juniper/nita-ansible container.
-awx-operator is a clone of AWX setup repository and here for reference purposes (for now). This is the version that is being tested against.
+<b>ansible-ee</b> - setup files to build ansible execution environment based on https://github.com/juniper/nita-ansible container.
+
+<b>awx-operator-files</b> - clone of AWX 21.3.0 from https://github.com/ansible/awx-operator.git (use reference tag 0.25.0) setup repository and here for reference purposes. This is the version that is being tested against.
 
 
-## Commands used to install
+## Installation
 
-1. Initial install using files in awx-operator folder
-
+1. Install Kubernetes. The build script assumes kubernetes is already installed. K3s (https://k3s.io/) was used to test this installation procedure. To install k3s issue the following commands:
 ```
-export NAMESPACE=awx 
-kubectl create ns ${NAMESPACE}
-sudo kubectl config set-context --current --namespace=$NAMESPACE 
-cd awx-operator/
-sudo apt install curl jq 
-RELEASE_TAG=`curl -s https://api.github.com/repos/ansible/awx-operator/releases/latest | grep tag_name | cut -d '"' -f 4` 
-echo $RELEASE_TAG 
-git checkout $RELEASE_TAG
-export NAMESPACE=awx
-make deploy
+curl -sfL https://get.k3s.io | sudo bash - 
+sudo chmod 644 /etc/rancher/k3s/k3s.yaml 
 ```
 
-2. Make dataspace persistenet:
-
+You can test the installation of k3s with the following commands:
 ```
-cat <<EOF | kubectl create -f -
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: static-data-pvc
-  namespace: awx
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: local-path
-  resources:
-    requests:
-      storage: 5Gi
-EOF
+kubectl get nodes
+kubectl version --short
 ```
 
-3. Build execution environment in ansible-ee folder.
+2. Install AWX using the provided script as show below. This does a few things in addition to pulling a specific version of AWX. The script creates a namespace in k8s called ```awx```. It also creates the pods required to run AWX and spins up a service running on default ports for AWX. 
+
+```
+cd nita-awx
+./build_container.sh
+```
+
+3. After installing AWX, you should create a superuser. This can be done by initiating a bash shell on the awx-web pod and executing the appropriate command (follow the prompts):
+
+```
+kubectl exec -ti deploy/awx -c awx-web -- "/bin/bash"
+bash-5.1$ awx-manage createsuperuser
+```
+
+4. Finally you will need an ansible execution environment. 
+
+```
+cd ansible-ee
+./build_container.sh
+```
+
+See [ansible-ee/README.md](ansible-ee/README.md) for details.
 
