@@ -1,6 +1,6 @@
 <H1> AWX Execution Environment </H1>
 
-Files located in this directory are used to create ansible execution environment for AWX/Ansible Tower. the ```build-container.sh``` script calls ansible-builder, which needs to be installed using pip (see https://ansible-builder.readthedocs.io/en/stable/installation/). Ansible-builder requires python3.8 or later to execute. You can also build the container directly by issuing the following commands:
+Files located in this directory are used to create ansible execution environment for AWX/Ansible Tower. the ```build-container.sh``` script calls ansible-builder, which needs to be installed using pip (see https://ansible-builder.readthedocs.io/en/stable/installation/). Ansible-builder requires python3.8 or later to execute. [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) and [Docker](https://docs.docker.com/engine/install/ubuntu/) also need to be installed.  You can also build the container directly by issuing the following commands:
 
 ```
 cd context
