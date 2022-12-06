@@ -1,6 +1,6 @@
 # nita-awx
 
-This is a work in progress and represents the files used to create an running AWX running along side an existing NITA (docker based) install. This is being used to test the AWX execution environment. AWX requires kubernetes.
+This is a work in progress and represents the files used to create an AWX instance running along side an existing NITA (docker based) install. This is being used to test the AWX execution environment. AWX requires kubernetes.
 
 ## Folders
 
