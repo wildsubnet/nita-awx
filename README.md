@@ -46,3 +46,15 @@ cd ansible-ee
 
 See [ansible-ee/README.md](ansible-ee/README.md) for details.
 
+## Updating
+
+In order to update versions of AWX, simply run the following commands and re-run the installation script:
+
+```
+kubectl delete deployment awx-operator-controller-manager
+kubectl delete serviceaccount awx-operator-controller-manager
+kubectl delete rolebinding awx-operator-awx-manager-rolebinding
+kubectl delete role awx-operator-awx-manager-role
+```
+ 
+
