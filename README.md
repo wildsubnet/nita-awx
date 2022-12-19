@@ -6,8 +6,6 @@ This is a work in progress and represents the files used to create an AWX instan
 
 <b>ansible-ee</b> - setup files to build ansible execution environment based on https://github.com/juniper/nita-ansible container.
 
-<b>awx-operator-files</b> - clone of AWX self-reported version 21.3.0 from https://github.com/ansible/awx-operator.git (use reference tag [0.25.0](https://github.com/ansible/awx-operator/releases/tag/0.25.0)) setup repository and here for reference purposes. This is the version testing of the ansible-ee environment occurred against.
-
 
 ## Installation
 
