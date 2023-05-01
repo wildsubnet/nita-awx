@@ -29,8 +29,14 @@ After this simply define the localhost:5000/ansible-ee in your definition for an
 * Persistence for generated configuration files. Playbooks are running and configurations seem to be getting generated but they are lost as soon as the environment is stopped. Will need a mechanism to save configuration files.
 * Final build action (junos_commit_config) fails when trying to move generated Junos config file from ``/root/.ansible/`` temporary working folder to ``/var/tmp/build/<hostname>/`` folder, which does not exist. Further investigation needed why sub-folders are not getting built. 
 * Currently in order to get playbooks to run variables need to be manually loaded into AWX. While AWX loads the variable files under ``group_vars`` and ``hosts_vars`` folders as part of the project fetch, they are ignored. 
-* Name resolution for hosts. NITA builds ``/etc/host`` file using shell scripts, need to find alternative for AWX EE environment. According to this https://github.com/ansible/awx/issues/1125 dynamically updating /etc/host file may not be feasible. In that case, we'd need to rely on external DNS resolution and/or manually updating k8s config files and restarting pod, which is not ideal. 
-
+* Name resolution for hosts. Currently adding hosts to core-dns module using the command ``kubectl edit cm coredns -n kube-system`` and adding specific entries under the ``NodeHosts:`` section as follows:
+```
+  NodeHosts: |                         
+    100.123.35.0 ubuntu                
+    100.123.1.0 wan-pe1                
+    100.123.1.1 wan-pe2  
+```
+Final DNS solution will be dependent on larger NITA architecture decisions. 
 
 
 ## AWX Screenshots
