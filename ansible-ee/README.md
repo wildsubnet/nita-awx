@@ -61,7 +61,7 @@ Note the variable data from ``groups_vars``
 Each individual host has ``host_vars`` defined here 
 
 <img width="1277" alt="image" src="https://user-images.githubusercontent.com/6110061/235500135-b8bf91ca-a3f5-49a4-a625-a5820bba60e4.png">
-![image](https://user-images.githubusercontent.com/6110061/191847262-1cefe0fa-5960-4513-8c06-a37247fa4aa3.png)
+<img width="1277" alt="image" src="https://user-images.githubusercontent.com/6110061/191847262-1cefe0fa-5960-4513-8c06-a37247fa4aa3.png">
 
 
 
