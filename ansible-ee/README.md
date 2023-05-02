@@ -63,6 +63,35 @@ Each individual host has ``host_vars`` defined here
 <img width="1277" alt="image" src="https://user-images.githubusercontent.com/6110061/235500135-b8bf91ca-a3f5-49a4-a625-a5820bba60e4.png">
 <img width="1277" alt="image" src="https://user-images.githubusercontent.com/6110061/191847262-1cefe0fa-5960-4513-8c06-a37247fa4aa3.png">
 
+### Instance Groups
 
+In order to mount /var/tmp into ansible execution environment, you need to update the yaml file for the container group that creates the AWX worker.  
+<img width="1274" alt="image" src="https://user-images.githubusercontent.com/6110061/235755603-e99723e2-d46a-4533-bd7e-c392d94c8f17.png">
 
+Example file:
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: awx
+spec:
+  serviceAccountName: default
+  automountServiceAccountToken: false
+  containers:
+    - image: quay.io/ansible/awx-ee:latest
+      name: worker
+      args:
+        - ansible-runner
+        - worker
+        - '--private-data-dir=/runner'
+      volumeMounts:
+        - mountPath: /var/tmp
+          name: nb-volume
+          readOnly: false
+  volumes:
+    - hostPath:
+        path: /var/tmp
+        type: ""
+      name: nb-volume
+```
 
