@@ -42,7 +42,8 @@ Final DNS solution will be dependent on larger NITA architecture decisions.
 How the NITA example data is being loaded into AWX for testing (as of September 22, 2022).
 
 ### Template
-![image](https://user-images.githubusercontent.com/6110061/191846632-018f1318-fa5a-4c45-99ee-7c4989afa1d6.png)
+<img width="1255" alt="image" src="https://user-images.githubusercontent.com/6110061/236244860-1bf9d65b-f034-4d35-88c4-b904def590c1.png">
+
 
 ### Project
 
