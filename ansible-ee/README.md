@@ -26,15 +26,7 @@ After this simply define the localhost:5000/ansible-ee in your definition for an
 
 ## To-Do
 
-* Currently in order to get playbooks to run variables need to be manually loaded into AWX. While AWX loads the variable files under ``group_vars`` and ``hosts_vars`` folders as part of the project fetch, they are ignored. 
-* Name resolution for hosts. Currently adding hosts to core-dns module using the command ``kubectl edit cm coredns -n kube-system`` and adding specific entries under the ``NodeHosts:`` section as follows:
-```
-  NodeHosts: |                         
-    100.123.35.0 ubuntu                
-    100.123.1.0 wan-pe1                
-    100.123.1.1 wan-pe2  
-```
-Final DNS solution will be dependent on larger NITA architecture decisions. 
+See https://github.com/users/wildsubnet/projects/1 for current list. Issues can be found at https://github.com/wildsubnet/nita-awx/issues
 
 
 ## AWX Screenshots
