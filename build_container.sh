@@ -18,7 +18,7 @@ kubectl create ns $NAMESPACE
 sudo kubectl config set-context --current --namespace=$NAMESPACE
 kubectl get pods
 cd awx-operator
-git checkout 1.1.2
+git checkout 2.1.0
 make deploy
 kubectl get pods
 cat <<EOF | kubectl create -f -
