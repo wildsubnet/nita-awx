@@ -43,9 +43,9 @@ How the NITA example data is being loaded into AWX for testing (as of September 
 
 ### Inventories
 
-Note the variable data from ``groups_vars``
+Note the variable data from ``groups_vars``. Also AWX requires an additional variable definition here ``ansible_python_interpreter: "{{ ansible_playbook_python }}"`` otherwise it will toss a missing module error because it runs the wrong python environment. See [this](https://www.reddit.com/r/ansible/comments/rb80pv/execution_environments_and_pip_module_locations/) thread.
 
-![image](https://user-images.githubusercontent.com/6110061/191847011-f2759976-4ef9-4eb4-ab93-0b4fbbb51673.png)
+<img width="1269" alt="image" src="https://github.com/wildsubnet/nita-awx/assets/6110061/958f3a4e-c262-4c8d-b92a-b1d56ea40204">
 
 ### Hosts
 
