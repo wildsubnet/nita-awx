@@ -1,9 +1,4 @@
 ---
-  roles:
-    # Install a role from Ansible Galaxy.
-    - name: Juniper.junos
-      version: '2.4.3'
-
   collections:
     # Install a collection from Ansible Galaxy.
     - name: netbox.netbox
